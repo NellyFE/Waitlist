@@ -1,0 +1,161 @@
+import React, { useState } from "react";
+
+const SPREADSHEET_ID =
+  "1wQnKHxP3qgwMurfFte5cHBW5bsfo3CJ1zwBZ6kGDbUwwA1meTFMRe8tI";
+
+export const Waitlist = () => {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    email: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitError("");
+
+    try {
+      const APPS_SCRIPT_URL =
+        "https://script.google.com/macros/s/AKfycbxsikhwgbRbQIibXB6MvQmVjKoIh4yzDYbJRrC2NmtxkZ5zetRdzd-cdIkAscZR6Sp-/exec";
+
+      const response = await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          spreadsheetId: SPREADSHEET_ID,
+          data: [
+            formData.firstName,
+            formData.lastName,
+            formData.phoneNumber,
+            formData.email,
+            new Date().toLocaleString(),
+          ],
+        }),
+      });
+
+      setSubmitSuccess(true);
+      setFormData({
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        email: "",
+      });
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setSubmitError("Failed to submit form. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <section>
+      <div className="flex flex-col mx-6 md:mx-24 bg-white p-6 md:p-12 rounded-lg border-8 border-[#f1effd] shadow-md shadow-black/10">
+        <h2 className="font-bold text-2xl md:text-3xl">
+          Join Apex Tech Online Academy Waitlist
+        </h2>
+        <p>Once we launch, you will get a notification from us</p>
+
+        {submitSuccess ? (
+          <div className="mt-6 p-4 bg-green-100 text-green-700 rounded">
+            Thank you for joining our waitlist! We'll notify you when we launch.
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <div className="flex flex-col justify-between mt-6">
+              <div className="flex flex-col md:flex-row gap-4 md:gap-12">
+                <div className="flex flex-col w-full md:w-1/2">
+                  <p>First Name</p>
+                  <input
+                    type="text"
+                    placeholder="Enter your first name"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
+                    required
+                    className="border-2 border-black/10 rounded p-2 outline-[#f1effd]"
+                  />
+                </div>
+
+                <div className="flex flex-col w-full md:w-1/2">
+                  <p>Last Name</p>
+                  <input
+                    type="text"
+                    placeholder="Enter your last name"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    required
+                    className="border-2 border-black/10 rounded p-2 outline-[#f1effd]"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col justify-between mt-6">
+              <div className="flex flex-col md:flex-row gap-4 md:gap-12">
+                <div className="flex flex-col w-full md:w-1/2">
+                  <p>Phone number</p>
+                  <input
+                    type="tel"
+                    placeholder="Enter your phone number"
+                    name="phoneNumber"
+                    value={formData.phoneNumber}
+                    onChange={handleInputChange}
+                    required
+                    className="border-2 border-black/10 rounded p-2 outline-[#f1effd]"
+                  />
+                </div>
+
+                <div className="flex flex-col w-full md:w-1/2">
+                  <p>Email Address</p>
+                  <input
+                    type="email"
+                    placeholder="Enter your email address"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                    className="border-2 border-black/10 rounded p-2 outline-[#f1effd]"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {submitError && (
+              <div className="mt-4 p-2 bg-red-100 text-red-700 rounded">
+                {submitError}
+              </div>
+            )}
+
+            <div className="flex items-center justify-center mt-12 text-center">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="flex bg-[#4400c7] rounded-lg py-2 px-12 w-full md:w-1/2 items-center justify-center text-center text-white cursor-pointer border-2 border-transparent hover:bg-transparent hover:text-[#4400c7] hover:border-2 hover:border-[#4400c7] transition-all duration-500 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? "Submitting..." : "Join Waitlist"}
+              </button>
+            </div>
+          </form>
+        )}
+      </div>
+    </section>
+  );
+};
