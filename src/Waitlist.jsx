@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 
-const SPREADSHEET_ID =
-  "1wQnKHxP3qgwMurfFte5cHBW5bsfo3CJ1zwBZ6kGDbUwwA1meTFMRe8tI";
-
 export const Waitlist = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    phoneNumber: "",
     email: "",
+    phone: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -28,37 +25,26 @@ export const Waitlist = () => {
     setSubmitError("");
 
     try {
-      const APPS_SCRIPT_URL =
-        "https://script.google.com/macros/s/AKfycbxsikhwgbRbQIibXB6MvQmVjKoIh4yzDYbJRrC2NmtxkZ5zetRdzd-cdIkAscZR6Sp-/exec";
+      const response = await fetch(
+        "https://apex-waitlist.onrender.com/api/waitlist",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
-      const response = await fetch(APPS_SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          spreadsheetId: SPREADSHEET_ID,
-          data: [
-            formData.firstName,
-            formData.lastName,
-            formData.phoneNumber,
-            formData.email,
-            new Date().toLocaleString(),
-          ],
-        }),
-      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to join waitlist");
+      }
 
       setSubmitSuccess(true);
-      setFormData({
-        firstName: "",
-        lastName: "",
-        phoneNumber: "",
-        email: "",
-      });
     } catch (error) {
-      console.error("Error submitting form:", error);
-      setSubmitError("Failed to submit form. Please try again.");
+      setSubmitError(error.message || "An error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -115,8 +101,8 @@ export const Waitlist = () => {
                   <input
                     type="tel"
                     placeholder="Enter your phone number"
-                    name="phoneNumber"
-                    value={formData.phoneNumber}
+                    name="phone"
+                    value={formData.phone}
                     onChange={handleInputChange}
                     required
                     className="border-2 border-black/10 rounded p-2 outline-[#f1effd]"
