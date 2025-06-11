@@ -25,16 +25,13 @@ export const Waitlist = () => {
     setSubmitError("");
 
     try {
-      const response = await fetch(
-        "https://apex-waitlist.onrender.com/api/waitlist",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch("https://apex-waitlist.onrender.com/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
       const data = await response.json();
 
