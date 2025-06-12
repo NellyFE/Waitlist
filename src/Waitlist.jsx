@@ -19,37 +19,32 @@ export const Waitlist = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitError("");
-
-    try {
-      const response = await fetch(
-        "https://apex-waitlist.onrender.com/api/waitlist",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to join waitlist");
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  try {
+    // Using proxy
+    const response = await fetch(
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(
+        'https://apex-waitlist.onrender.com/api/waitlist'
+      )}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       }
+    );
 
-      setSubmitSuccess(true);
-    } catch (error) {
-      setSubmitError(error.message || "An error occurred. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || "Submission failed");
+    
+    setSubmitSuccess(true);
+  } catch (error) {
+    setSubmitError(error.message);
+  }
+};
   return (
     <section>
       <div className="flex flex-col mx-6 md:mx-24 bg-white p-6 md:p-12 rounded-lg border-8 border-[#f1effd] shadow-md shadow-black/10">
