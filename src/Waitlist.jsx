@@ -32,12 +32,7 @@ export const Waitlist = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            firstName: formData.firstName.trim(),
-            lastName: formData.lastName.trim(),
-            email: formData.email.trim().toLowerCase(),
-            phone: formData.phone.trim(),
-          }),
+          body: JSON.stringify(formData),
         }
       );
 
