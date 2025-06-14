@@ -70,6 +70,7 @@ export const Waitlist = () => {
                   <p>First Name</p>
                   <input
                     type="text"
+                    autoComplete="off"
                     placeholder="Enter your first name"
                     name="firstName"
                     value={formData.firstName}
@@ -83,6 +84,7 @@ export const Waitlist = () => {
                   <p>Last Name</p>
                   <input
                     type="text"
+                    autoComplete="off"
                     placeholder="Enter your last name"
                     name="lastName"
                     value={formData.lastName}
@@ -100,6 +102,7 @@ export const Waitlist = () => {
                   <p>Phone number</p>
                   <input
                     type="tel"
+                    autoComplete="off"
                     placeholder="Enter your phone number"
                     name="phone"
                     value={formData.phone}
@@ -113,6 +116,7 @@ export const Waitlist = () => {
                   <p>Email Address</p>
                   <input
                     type="email"
+                    autoComplete="off"
                     placeholder="Enter your email address"
                     name="email"
                     value={formData.email}
