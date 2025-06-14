@@ -1,12 +1,13 @@
 import React, { useState } from "react";
+import { CodePhoneInput } from "./components/phone-input";
 
 export const Waitlist = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
-    phone: "",
   });
+  const [phone, setPhone] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -32,7 +33,7 @@ export const Waitlist = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify({ ...formData, phone }),
         }
       );
 
@@ -102,7 +103,7 @@ export const Waitlist = () => {
               <div className="flex flex-col md:flex-row gap-4 md:gap-12">
                 <div className="flex flex-col w-full md:w-1/2">
                   <p>Phone number</p>
-                  <input
+                  {/* <input
                     type="tel"
                     autoComplete="off"
                     placeholder="Enter your phone number"
@@ -112,7 +113,8 @@ export const Waitlist = () => {
                     onInput={handleInputChange}
                     required
                     className="border-2 border-black/10 rounded p-2 outline-[#f1effd]"
-                  />
+                  /> */}
+                  <CodePhoneInput phone={phone} setPhone={setPhone} />
                 </div>
 
                 <div className="flex flex-col w-full md:w-1/2">

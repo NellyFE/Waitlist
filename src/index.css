@@ -1,9 +1,13 @@
 @import "tailwindcss";
 
-body{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    scroll-behavior: smooth;
-    background: linear-gradient(50deg, #c1b5fd,  #f1effd );
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  background: linear-gradient(50deg, #c1b5fd, #f1effd);
+}
+
+input {
+  outline: none !important;
 }
