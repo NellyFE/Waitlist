@@ -75,6 +75,7 @@ export const Waitlist = () => {
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleInputChange}
+                    onInput={handleInputChange}
                     required
                     className="border-2 border-black/10 rounded p-2 outline-[#f1effd]"
                   />
@@ -89,6 +90,7 @@ export const Waitlist = () => {
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleInputChange}
+                    onInput={handleInputChange}
                     required
                     className="border-2 border-black/10 rounded p-2 outline-[#f1effd]"
                   />
@@ -107,6 +109,7 @@ export const Waitlist = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
+                    onInput={handleInputChange}
                     required
                     className="border-2 border-black/10 rounded p-2 outline-[#f1effd]"
                   />
@@ -121,6 +124,7 @@ export const Waitlist = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
+                    onInput={handleInputChange}
                     required
                     className="border-2 border-black/10 rounded p-2 outline-[#f1effd]"
                   />
